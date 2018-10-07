@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Aug 21 08:30:32 2018
-
-@author: Utente
+Used both in the simulation and the analysis part. It should be splitted in two parts.
+@author: nicola.dainese96@gmail.com
 """
 
 def print_matrix(A, S1, S2, C, filename, parent_dir):
     import matplotlib.pyplot as plt
     from ensure_dir import ensure_dir
-    
+    import os
+    script_dir = os.getcwd()
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.imshow(A, cmap = 'Greys')
@@ -26,19 +27,19 @@ def print_matrix(A, S1, S2, C, filename, parent_dir):
     
     path = parent_dir+'/'+filename+'//prova.txt'
     ensure_dir(path)
-    import os
+    
     directory = os.path.dirname(path)
     os.chdir(directory)
     fig.savefig(filename+'_matrix.png')
     plt.close()
-    file_path2 = "C:/Users/java4folks/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     
 def print_matrix2(A, S1, S2, C, NODF, re, parent_dir):
     import matplotlib.pyplot as plt
     from ensure_dir import ensure_dir
-    
+    import os
+    script_dir = os.getcwd()
+
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.imshow(A, cmap = 'Greys')
@@ -56,14 +57,11 @@ def print_matrix2(A, S1, S2, C, NODF, re, parent_dir):
     
     path = parent_dir+'//prova.txt'
     ensure_dir(path)
-    import os
     directory = os.path.dirname(path)
     os.chdir(directory)
     fig.savefig(repr(C)+'-'+repr(re)+'_matrix.png')
     plt.close()
-    file_path2 = "C:/Users/java4folks/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     
 def print_list_csv(l, name, dir_name, rnd =2, d = 2):
     from ensure_dir import ensure_dir
@@ -177,17 +175,10 @@ def eps_print(eps, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N,
               name, dir_name, S1, S2, C):
     import matplotlib.pyplot as plt
     import math
-    import matplotlib as mpl
-    axes = {'titlesize' : 'x-large',
-            'titlepad' : 7.0,
-            'labelsize' : 'large',
-            'labelpad' : 7.0}
-    font = {'family' : 'sans-serif',
-            'size' : 12.0}
-    mpl.rc('axes', **axes)
-    mpl.rc('font', **font)
-    mpl.rc('xtick', **{'labelsize' : 'medium'})
-    mpl.rc('ytick', **{'labelsize' : 'medium'})
+    #NOTE: 'seaborn' is not the original style that you find in matplotlib!
+    #create a style in a more flexible way -> seaborn was modified by myself
+    #plt.style.use('seaborn')
+    restyle()
     #vecchia variabile: eps_S
     #N/R_eps_S = (eps, S_mean_1, S_dev_1, S_mean_2, S_dev_2 )
   
@@ -231,6 +222,7 @@ def eps_print(eps, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N,
     ax4.grid() 
     ax4.set_ylim(0)
     ax4.set_autoscale_on(True)
+    plt.tight_layout()
     
     import os
     path = dir_name
@@ -272,6 +264,7 @@ def eps_print(eps, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N,
     ax6.set_xlabel('epsilon')
     ax6.grid()
     ax6.set_autoscale_on(True)
+    plt.tight_layout()
     
     fig2.savefig('deltaS12_eps_'+name+'.png')
     plt.close()
@@ -300,22 +293,35 @@ def eps_print(eps, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N,
     fig3.savefig('deltaS_eps_'+name+'-v2.png')
     plt.close()
     
+    #S_mean_1R, S_dev_1R, S_mean_2R, S_dev_2R
+    B = []
+    sB = []
+    for i in range(len(S_mean_1R)):
+        B.append(S_mean_1R[i]+S_mean_2R[i])
+        s_q2 = math.pow(S_dev_1R[i],2) + math.pow(S_dev_2R[i], 2)
+        err = math.sqrt(s_q2)
+        sB.append(err)
+       
+    fig4 = plt.figure()
+    ax8 = fig4.add_subplot(111)
+    ax8.plot(eps, B, '.', label = 'Dati per C = {}'.format(C))
+    ax8.errorbar(eps, B, yerr = sB, fmt = 'b.')
+    #ax8.set_title('BiodiversitÃ  S al variare di eps per C = {} '.format(C))
+    ax8.set_ylabel(r'$S_{1 rand} + S_{2 rand}$'+' con '+r'$S_0 = {}$'.format(S1+S2))
+    ax8.set_xlabel('IntensitÃ  di mutualismo '+u"\u03B5")
+    #ax8.grid()
+    ax8.legend(fontsize = 'large')
+    #ax8.set_autoscale_on(True)
+    plt.tight_layout()
+    
+    fig4.savefig('biodiv_eps_'+name+'.png')
+    plt.close()
     
 def C_print(Cs, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N, 
               S_mean_1R, S_dev_1R, S_mean_2R, S_dev_2R, 
               name, dir_name, S1, S2, eps):
     import matplotlib.pyplot as plt
-    import matplotlib as mpl
-    axes = {'titlesize' : 'x-large',
-            'titlepad' : 7.0,
-            'labelsize' : 'large',
-            'labelpad' : 7.0}
-    font = {'family' : 'sans-serif',
-            'size' : 12.0}
-    mpl.rc('axes', **axes)
-    mpl.rc('font', **font)
-    mpl.rc('xtick', **{'labelsize' : 'medium'})
-    mpl.rc('ytick', **{'labelsize' : 'medium'})
+    restyle()
     import math
     #vecchia variabile: eps_S
     #N/R_eps_S = (eps, S_mean_1, S_dev_1, S_mean_2, S_dev_2 )
@@ -333,34 +339,34 @@ def C_print(Cs, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N,
     ax1.set_title('S(C) nested con '+ u"\u03B5" +' = {}'.format(eps))
     ax1.set_ylabel('S1 all\'equilibrio con S1 iniziale = {}'.format(S1) )
     ax1.set_xlabel('connettanza C') 
-    ax1.grid()
+    #ax1.grid()
     ax1.set_ylim(0)
-    ax1.set_autoscale_on(True)
+    #ax1.set_autoscale_on(True)
     
     ax3.plot(Cs,S_mean_2N, '.')
     ax3.errorbar(Cs, S_mean_2N, yerr = S_dev_2N, fmt = 'b.')
     ax3.set_ylabel('S2 all\'equilibrio con S2 iniziale = {}'.format(S2) )
     ax3.set_xlabel('connettanza C') 
-    ax3.grid() 
+    #ax3.grid() 
     ax3.set_ylim(0)
-    ax3.set_autoscale_on(True)
+    #ax3.set_autoscale_on(True)
     
     ax2.plot(Cs, S_mean_1R, '.')
     ax2.errorbar(Cs, S_mean_1R, yerr = S_dev_1R, fmt = 'b.')
     ax2.set_title('S(C) casuale con eps = {}'.format(eps))
     ax2.set_ylabel('S1 all\'equilibrio con S1 iniziale = {}'.format(S1))
     ax2.set_xlabel('connettanza C') 
-    ax2.grid()
+    #ax2.grid()
     ax2.set_ylim(0)
-    ax2.set_autoscale_on(True)
+    #ax2.set_autoscale_on(True)
     
     ax4.plot(Cs,S_mean_2R, '.')
     ax4.errorbar(Cs, S_mean_2R, yerr = S_dev_2R, fmt = 'b.')
     ax4.set_ylabel('S2 all\'equilibrio con S2 iniziale = {}'.format(S2))
     ax4.set_xlabel('connettanza C') 
-    ax4.grid() 
+    #ax4.grid() 
     ax4.set_ylim(0)
-    ax4.set_autoscale_on(True)
+    #ax4.set_autoscale_on(True)
     plt.tight_layout()
     
     import os
@@ -413,26 +419,28 @@ def C_print(Cs, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N,
         d_S2.append(delta2)
         s_S2.append(sigma2)
 
+    #@@@@@@@@@@@@@@@@@@@@@@@@@
+    #da sistemare la grafica qui!
     fig2, [ax5,ax6] = plt.subplots(2,1, figsize = (6,6))
-    
+
     ax5.plot(Cs, d_S1, '.')
     ax5.errorbar(Cs, d_S1, yerr = s_S1, fmt = 'b.')
     ax5.set_title('deltaS stazionaria  al variare di C per eps = {} '.format(eps))
     ax5.set_ylabel('S1 nest - S1 rand con S = {}'.format(S1))
     ax5.set_xlabel('connettanza C')
     ax5.grid()
-    ax5.set_autoscale_on(True)
+    #ax5.set_autoscale_on(True)
     
     ax6.plot(Cs, d_S2, '.')
     ax6.errorbar(Cs, d_S2, yerr = s_S2, fmt = 'b.')
     ax6.set_ylabel('S2 nest - S2 rand con S = {}'.format(S2))
     ax6.set_xlabel('connettanza C')
     ax6.grid()
-    ax6.set_autoscale_on(True)
+    #ax6.set_autoscale_on(True)
     plt.tight_layout()
     fig2.savefig('deltaS12_C_'+name+'.png')
     plt.close()
-    
+    #@@@@@@@@@@@@@@@@@@@@@@@@@
     S = []
     d = []
     for i in range(len(d_S1)):
@@ -480,29 +488,91 @@ def C_print(Cs, S_mean_1N, S_dev_1N, S_mean_2N, S_dev_2N,
     fig4.savefig('S_C_R_'+name+'-v3.png')
     plt.close()
     
+def print_C_zoom(B_Ns, sB_Ns, B_Rs, sB_Rs, deltas, sigmas):
+    import matplotlib.pyplot as plt  
+    #NOTE: 'seaborn' is not the original style that you find in matplotlib!
+    #create a style in a more flexible way -> seaborn was modified by myself
+    #plt.style.use('seaborn')
+    restyle()
+    #print('deltas = ', deltas)
+    #print('sigmas = ', sigmas)
+    Cs = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35]
+    S1 = 10
+    S2 = 10
+    eps = 0.1
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.plot(Cs, B_Ns[0], 'r.', label = 'nested I tipo')
+    ax.errorbar(Cs, B_Ns[0], yerr = sB_Ns[0], fmt = 'r.')
+    
+    ax.plot(Cs, B_Ns[1], 'b.', label = 'nested II tipo')
+    ax.errorbar(Cs, B_Ns[1], yerr = sB_Ns[1], fmt = 'b.')
+    
+    ax.plot(Cs, B_Rs[0], 'g.', label = 'random: <C> = C')
+    ax.errorbar(Cs, B_Rs[0], yerr = sB_Rs[0], fmt = 'g.')
+    
+    ax.plot(Cs, B_Rs[1], 'm.', label = 'random C = cost')
+    ax.errorbar(Cs, B_Rs[1], yerr = sB_Rs[1], fmt = 'm.')
+    
+    #ax.grid()
+    ax.set_title('BiodiversitÃ  in funzione di C  per '+u"\u03B5"+' = {}'.format(eps))
+    ax.set_xlabel('Connettanza C')
+    ax.set_ylabel(r'$S_1 + S_2$'+' con '+r'$ S_0 = {}$'.format(S1+S2))
+    ax.set_xlim(left = 0)
+    ax.set_ylim(bottom = 0)
+    ax.legend(loc = 'lower right', fontsize = 'large')
+    plt.tight_layout()
+    
+    import os
+    #this was just an exception, it has to be revised
+    path = 'C:/Users/Utente/Anaconda3/Cooperazione/100-100'
+    os.chdir(path)
+    fig.savefig('4S_C-'+repr(eps)+'-v3.png')
+    plt.close()
+    fig2 = plt.figure()
+    ax2 = fig2.add_subplot(111)
+    ax2.plot(Cs, deltas[0], 'r.', label = 'nested I tipo vs random')
+    ax2.errorbar(Cs, deltas[0], yerr = sigmas[0], fmt = 'r.')
+    #r'$[log(T_{ass})]$'
+    #u"\u0394"
+    ax2.plot(Cs, deltas[1], 'b.', label = 'nested II tipo vs random')
+    ax2.errorbar(Cs, deltas[1], yerr = sigmas[1], fmt = 'b.')
+    #ax2.grid()
+    ax2.set_title(u"\u0394"+r'$S/S_0$'+' in funzione di C per '+u"\u03B5"+' = {}'.format(eps))
+    ax2.set_xlabel('Connettanza C')
+    ax2.set_ylabel(u"\u0394"+r'$S/S_0$'+' con '+r'$S_0 = {}$'.format(S1+S2))
+    ax2.set_xlim(left = 0)
+    #ax.set_ylim(bottom = 0)
+    ax2.legend(fontsize = 'large')    
+    plt.tight_layout()
+    fig2.savefig('2deltaS_C-'+repr(eps)+'-v3.png')
+    plt.close()    
+    
 def NODF_print(S1_m, S1_d, S2_m, S2_d, eps, C, NODFs, S1, S2, rip, parent_dir):
     import matplotlib.pyplot as plt
     import math
+    restyle()
     
     fig2, [ax5,ax6] = plt.subplots(1,2, figsize = (9,5))
     
     ax5.plot(NODFs,S1_m, '.')
     ax5.errorbar(NODFs, S1_m, yerr = S1_d, fmt = 'b.')
-    ax5.set_title('S1 al variare di NODF per (eps, C) = ({}, {} )'.format(eps,C))
-    ax5.set_ylabel('S1 all\'equilibrio con S1 iniziale = {}'.format(S1))
-    ax5.set_xlabel('nestedness [NODF]')
+    ax5.set_title('S1(NODF) per ('+ u"\u03B5"+', C) = ({}, {} )'.format(eps,C))
+    ax5.set_ylabel('Specie coesistenti S1 su {}'.format(S1))
+    ax5.set_xlabel('Nestedness [NODF]')
     ax5.grid()
     ax5.set_autoscale_on(True)
     ax5.set_ylim(0,S1)
     
     ax6.plot(NODFs, S2_m, '.')
     ax6.errorbar(NODFs, S2_m, yerr = S2_d, fmt = 'b.')
-    ax6.set_title('S2 al variare di NODF per (eps, C) = ({}, {} )'.format(eps,C))
-    ax6.set_ylabel('S2 all\'equilibrio con S2 iniziale = {}'.format(S2))
-    ax6.set_xlabel('nestedness [NODF]')
+    ax6.set_title('S2(NODF) per ('+ u"\u03B5"+', C) = ({}, {} )'.format(eps,C))
+    ax6.set_ylabel('Specie coesistenti S2 su {}'.format(S1))
+    ax6.set_xlabel('Nestedness [NODF]')
     ax6.grid()
     ax6.set_autoscale_on(True)
     ax6.set_ylim(0,S2)
+    plt.tight_layout()
     import os
     path = parent_dir
     os.chdir(path)
@@ -520,15 +590,45 @@ def NODF_print(S1_m, S1_d, S2_m, S2_d, eps, C, NODFs, S1, S2, rip, parent_dir):
         
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(NODFs, S, '.')
+    ax.plot(NODFs, S, '.', label = 'Dati per:\n '+ u"\u03B5"+' = {} \n C = {}'.format(eps,C))
     ax.errorbar(NODFs, S, yerr = d, fmt = 'b.')
-    ax.set_title('S al variare di NODF per (eps, C) = ({}, {} )'.format(eps,C))
-    ax.set_ylabel('S all\'equilibrio con S iniziale = {}'.format(S1+S2))
-    ax.set_xlabel('nestedness [NODF]')
-    ax.grid()
+    #ax.set_title('S al variare di NODF per (eps, C) = ({}, {} )'.format(eps,C))
+    #ax.set_ylabel('S all\'equilibrio con S iniziale = {}'.format(S1+S2))
+    #ax.set_title('S(NODF) per (eps, C) = ({}, {} )'.format(eps,C))
+    ax.set_ylabel('Specie coesistenti S su {}'.format(S1+S2))
+    ax.set_xlabel('Nestedness [NODF]')
+    #ax.grid()
+    ax.legend(fontsize = 'large')
+    plt.tight_layout()
     fig.savefig('S_NODF_'+eps+'-'+C+'-'+rip+'.png')
     plt.close()
+
+    deltas = []
+    sigmas = []
+    for i in range(len(S)):
+        diff = (S[i] - S[-1])/(S1+S2)
+        s_q2 = math.pow(d[i],2) + math.pow(d[-1], 2)
+        err = math.sqrt(s_q2)/(S1+S2)
+        deltas.append(diff)
+        sigmas.append(err)
+        
+    fig1 = plt.figure()
+    ax = fig1.add_subplot(111)
+    #ax.plot(NODFs, deltas, '.')
+    ax.plot(NODFs, deltas, '.', label = 'Dati per:\n '+ u"\u03B5"+' = {} \n C = {}'.format(eps,C))
+    ax.errorbar(NODFs, deltas, yerr = sigmas, fmt = 'b.')
+    #ax.set_title('deltaS/S al variare di NODF per (eps, C) = ({}, {} )'.format(eps,C))
+    ax.set_ylabel(u"\u0394"+r'$S/S_0$'+' con '+r'$S_0 = {}$'.format(S1+S2))
+    ax.set_xlabel('Nestedness [NODF]')
+    #ax.grid()
+    ax.legend(fontsize = 'large')
+    plt.tight_layout()
+    fig1.savefig('deltaS_NODF_'+eps+'-'+C+'-'+rip+'-v1.png')
+    plt.close()
     
+    print('deltas = ', deltas, '\n')
+    print('sigmas = ', sigmas, '\n')
+        
 def e_hist(data):
     #import my_output as O
     #import math
@@ -566,7 +666,7 @@ def plot_eps_hist(v_n_rips, epsilons, p, N, names, parent_dir):
 def e_plot_hist(v_n_rip, eps, p, N, names, dir_name):
     import matplotlib.pyplot as plt
     #import numpy as np
-    b = int(N/5)
+    #b = int(N/5)
     rip = len(v_n_rip)
     #print('rip = ', rip, '\n')
     
@@ -663,7 +763,7 @@ def plot_ps_hist(v_n_rips, eps, ps, N, names, parent_dir):
 def p_plot_hist(v_n_rip, eps, C, N, names, dir_name):
     import matplotlib.pyplot as plt
     #import numpy as np
-    b = int(N/5)
+    #b = int(N/5)
     rip = len(v_n_rip)
     #print('rip = ', rip, '\n')
     
@@ -784,6 +884,7 @@ def S_plot2(S, eps, C, NODF, name, dir_name):
     
 def print_NODF_step(NODFs, C, P, dir_name):
     import matplotlib.pyplot as plt
+    restyle()
     step = [x for x in range(len(NODFs))]
     print('NODFs = ', NODFs)
     fig = plt.figure()
@@ -792,6 +893,7 @@ def print_NODF_step(NODFs, C, P, dir_name):
     ax.set_title('NODF per {} step da nested a random con C = {}'.format(step[-1],C))
     ax.set_xlabel('Numero di step da {} scambi casuali ciascuno'.format(P))
     ax.set_ylabel('Nestedness [NODF]')
+    plt.tight_layout()
     import os
     path = dir_name
     os.chdir(path)
@@ -814,4 +916,17 @@ def print_NODF_step2(NODFs, C, P, dir_name):
     os.chdir(path)
     fig.savefig('NODF_selezione-'+repr(C)+'-'+repr(P)+'.png')
     
-    #plt.close()
+    plt.close()
+    
+def restyle():
+    import matplotlib as mpl
+    axes = {'titlesize' : 'x-large',
+            'titlepad' : 7.0,
+            'labelsize' : 'large',
+            'labelpad' : 7.0}
+    font = {'family' : 'sans-serif',
+            'size' : 12.0}
+    mpl.rc('axes', **axes)
+    mpl.rc('font', **font)
+    mpl.rc('xtick', **{'labelsize' : 'medium'})
+    mpl.rc('ytick', **{'labelsize' : 'medium'})

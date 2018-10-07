@@ -12,13 +12,13 @@ import analyser as an
 input_path = 'C:/Users/Utente/Anaconda3/Test'
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-x = [1] #change this list for execute multiple analysis commands
+x = [0] #change this list for execute multiple analysis commands
 # i.e. [0,1,2,3,4,5] executes all the statements below
 for i in x:
     if i == 0:
-        an.e_analyser(input_path)
+       an.p_analyser(input_path)
     if i == 1:
-        an.p_analyser(input_path)
+        an.e_analyser(input_path)
     if i == 2:
         an.multiple_p_analyser(input_path)
     if i == 3:

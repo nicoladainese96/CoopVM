@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Aug 21 10:00:29 2018
-
-@author: Utente
+Used to analyse multiple types of simulation of cvm.
+NODF (nestedness measure) -> epsilon and C constant, varied nestedness
+p (~ C) -> epsilon constant, C varied, 2 cases: random & nested
+e (epsilon) -> C constant, epsilon varied, 2 cases: random & nested
+@author: nicola.dainese96@gmail.com
 """
 def NODF_analyser(input_path):
     import my_input as I
@@ -44,6 +47,86 @@ def p_analyser(input_path):
         print('Analisi riga {} pstring.'.format(i+1))
         p2_analyser(pstrings[i])
         #O.p_hist(pstrings[i])
+
+def multiple_p_analyser(input_path):
+    import my_input as I
+    import my_output as O
+    pstrings = I.csv_string_reader ('info_p', input_path)
+    B_Ns = []
+    sB_Ns = [] 
+    B_Rs = []  
+    sB_Rs = []   
+    deltas = []   
+    sigmas = []  
+    for i in range(len(pstrings)):
+        print('Analisi riga {} pstring.'.format(i+1))
+        (B_N, sB_N, B_R, sB_R, d, s) = multiple_p2_analyser(pstrings[i])
+        B_Ns.append(B_N)
+        sB_Ns.append(sB_N)
+        B_Rs.append(B_R)
+        sB_Rs.append(sB_R)
+        deltas.append(d)
+        sigmas.append(s)
+    print('Eseguo print_C_zoom.')
+    O.print_C_zoom(B_Ns, sB_Ns, B_Rs, sB_Rs, deltas, sigmas)   
+    
+def multiple_p2_analyser(data):
+    #import my_input as I
+    #import my_output as O
+    import math
+    ps_len = (len(data) - 5)
+    ps = []
+    
+    parent_dir = data[0]
+    N =  int(data[1])
+    S1 = int(math.sqrt(N))
+    S2 = int(math.sqrt(N))
+    #rip = data[2]
+    eps =  data[3]
+    for j in range(ps_len):
+        y = float(data[4+j])
+        ps.append(y)  
+    #tau = data[-1]
+    #attenzione: da cambiare S_analysis, vd e2_analyser
+    #Prova:
+    #ps = ps = [0.0, 0.033, 0.066, 0.1, 0.2, 0.35, 0.5]
+    (N_S1_m_l, N_S1_d_l) = p_S_analysis('N_S1_', parent_dir, eps, ps)
+    (N_S2_m_l, N_S2_d_l) = p_S_analysis('N_S2_', parent_dir, eps, ps)
+    (R_S1_m_l, R_S1_d_l) = p_S_analysis('R_S1_', parent_dir, eps, ps)
+    (R_S2_m_l, R_S2_d_l) = p_S_analysis('R_S2_', parent_dir, eps, ps)
+    #print('len(N_S1_m_list) = ', len(N_S1_m_l))
+    #print('len(N_S1_d_list) = ', len(N_S1_d_l), '\n')
+    B_N = []
+    sB_N = []
+    B_R = []
+    sB_R = []
+    for i in range(len(N_S1_m_l)):
+        B_N.append(N_S1_m_l[i]+N_S2_m_l[i])
+        B_R.append(R_S1_m_l[i]+R_S2_m_l[i])
+        err_N = math.sqrt( pow(N_S1_d_l[i],2) + pow(N_S2_d_l[i],2))
+        sB_N.append(err_N)
+        err_R = math.sqrt( pow(R_S1_d_l[i],2) + pow(R_S2_d_l[i],2))
+        sB_R.append(err_R)
+        
+    d1 = []
+    s1 = []
+    d2 = []
+    s2 = []
+    for i in range(len(N_S1_m_l)):
+        d1.append(N_S1_m_l[i]-R_S1_m_l[i])
+        d2.append(N_S2_m_l[i]-R_S2_m_l[i])
+        err_1 = math.sqrt( pow(N_S1_d_l[i],2) + pow(R_S1_d_l[i],2))
+        s1.append(err_1)
+        err_2 = math.sqrt( pow(N_S2_d_l[i],2) + pow(R_S2_d_l[i],2))
+        s2.append(err_2)
+        
+    d = []
+    s = []
+    for i in range(len(d1)):
+        d.append((d1[i]+d2[i])/(S1+S2))
+        err = math.sqrt( pow(s1[i],2) + pow(s2[i],2))/(S1+S2)
+        s.append(err)
+    return (B_N, sB_N, B_R, sB_R, d, s)    
         
 def p2_analyser(data):
     #import my_input as I
