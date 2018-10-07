@@ -2,7 +2,7 @@
 """
 Created on Wed Aug  8 16:40:39 2018
 
-@author: Utente
+@author: nicola.dainese96@gmail.com
 """
 def adjacency_matrix_rnd(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
     import networkx as nx
@@ -17,7 +17,8 @@ def adjacency_matrix_rnd(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index =
     ensure_dir(file_path)
     directory = os.path.dirname(file_path)
     os.chdir(directory)
-    
+    #connectance IS NOT fixed, but its average <C> is equal to p
+    #anyway on 100 realization no significant difference is detected
     G = bipartite.random_graph(S1, S2, p)
     deg = list(G.degree())
     deg1 = deg[:S1]
@@ -76,13 +77,14 @@ def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index 
     import my_print as my
     import my_output as O
     #print('dir_name = ', dir_name)
-    
+    #k is the number of non-null elements of the mutualistic matrix
+    #in this case p = C in each realization
     k = int(round(S1*S2*p,0))
     G = bipartite.gnmk_random_graph(S1, S2, k)
     #G = bipartite.random_graph(S1, S2, p)
     num_conn = G.number_of_edges()
-    if num_conn != k:
-        print('Problema numero connessioni.')
+    if num_conn != k: #this checks out if the number of connections of the random graphs is really k
+        print('Problema numero connessioni.') #prints an alert otherwise
         print('# = ', num_conn)
     deg = list(G.degree())
     deg1 = deg[:S1]
@@ -100,7 +102,7 @@ def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index 
     A1 = []
     for x in range(S1):
         A1.append(A2[x][S1:])
-        
+       
     if index == 1:    
         plt.style.use('seaborn')
         
@@ -168,6 +170,7 @@ def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index 
     return A1
 
 def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
+    #asymmetric nested (for low values of connectances)
     import networkx as nx
     import matplotlib.pyplot as plt
     import os
@@ -188,10 +191,10 @@ def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', ind
         for j in range(S1, S1+S2-i):
             edges.append((i,j))
     G.add_edges_from(edges)
-    if p < 0.55:
-        G = adjust_edges(G, S1, S2, p)
+    if p < 0.55: 
+        G = adjust_edges(G, S1, S2, p) #this is where the actual edges are decided in most cases (C < 0.55)
     if p > 0.55:
-        G = adjust_edges2(G, S1, S2, p)
+        G = adjust_edges2(G, S1, S2, p) #this should be usless in all real-connectance cases 
     deg = list(G.degree())
     deg1 = deg[:S1]
     deg2 = deg[S1:]
@@ -268,6 +271,7 @@ def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', ind
     return A1
 
 def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
+    #balanced nested
     import networkx as nx
     import matplotlib.pyplot as plt
     import os
@@ -289,6 +293,7 @@ def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', in
             edges.append((i,j))
     G.add_edges_from(edges)
     if p < 0.55:
+    #this is where the actual edges are decided in most cases (C < 0.55) - different method
         G = adjust_edges1(G, S1, S2, p)
     if p > 0.55:
         G = adjust_edges2(G, S1, S2, p)
@@ -363,19 +368,22 @@ def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', in
     os.chdir(directory2)
     return A1
 
-def adjust_edges(G, S1, S2, C):
+def adjust_edges(G, S1, S2, C): #first method of adjusting edges - asymmetric for low Cs
     import networkx as nx
     in_edges = G.number_of_edges()
     #print(in_edges)
-    fin_edges = int(round(C*S1*S2,0))
+    fin_edges = int(round(C*S1*S2,0)) #number of final edges to be obtained
     #print(fin_edges)
-    delta = in_edges - fin_edges 
+    delta = in_edges - fin_edges #final < initial
     #print(delta)
     edges = list(G.edges())
     #print(edges)
     index = []
     for i in range(len(edges)):
-        i_x_i = edges[i][0]*(edges[i][1]-S1)
+    #we start with a triangular matrix [1/0] 
+    #edges with lower values will be the first ones to be recided
+    #untill the request connectance is achieved
+        i_x_i = edges[i][0]*(edges[i][1]-S1) #this is the algorithm that assign a value to each edge
         index.append(i_x_i)
     #print(index)
     M = max(index)
@@ -383,7 +391,7 @@ def adjust_edges(G, S1, S2, C):
     for i in range(0,M+1):
         for j in range(len(edges)):
             if index[j] == i:
-                sort_edg.append(edges[j])
+                sort_edg.append(edges[j]) #this list contains the edges ordered with increasing values
     #print(sort_edg)
     new_edges = sort_edg[:-delta]
     F = nx.Graph()
@@ -392,7 +400,7 @@ def adjust_edges(G, S1, S2, C):
     F.add_edges_from(new_edges)
     return F
 
-def adjust_edges1(G, S1, S2, C):
+def adjust_edges1(G, S1, S2, C): #second method of adjusting edges - more balanced
     import networkx as nx
     in_edges = G.number_of_edges()
     #print('in edges = ', in_edges, '\n')
@@ -403,7 +411,6 @@ def adjust_edges1(G, S1, S2, C):
     edges = list(G.edges())
     #print('edges = ', edges, '\n')
     index = []
-    #questa è la parte da cambiare
     for i in range(len(edges)):
         if i == 0:
             i_x_i = (edges[i][0]+2)*(edges[i][1]-S1+2)

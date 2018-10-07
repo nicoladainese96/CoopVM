@@ -2,7 +2,7 @@
 """
 Created on Thu Aug  9 09:49:02 2018
 
-@author: Utente
+@author: nicola.dainese96@gmail.com
 """
 
 def one_step(N1, N2, v1, v2, n1, n2, A, eps, rip = 1, flag = False, dir_name = ''):

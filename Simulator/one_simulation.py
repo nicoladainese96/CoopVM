@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+@author: nicola.dainese96@gmail.com
+"""
+
 def R_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, 
                      p = 0.33, t = 1000, dir_name = '50-50', rip = 1, g=1, flag = False, re = 1):
     from one_step_bi import one_step
@@ -56,9 +61,9 @@ def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33,
     name = repr(eps)+'-'+repr(p) +'-'+repr(rip)+'-'+repr(re)
     
     from bipartite_graph_matrix import adjacency_matrix_nested, adjacency_matrix_nested2
-    if option == 0:
+    if option == 0: #asymmetric nested / first type
         A = adjacency_matrix_nested(S1, S2, p , dir_name, re, g, flag)
-    else: 
+    else: #balanced nested / second type
         A = adjacency_matrix_nested2(S1, S2, p , dir_name, re, g, flag)
     #print('A = ', A)
     tau_max1 = int(t/N1)

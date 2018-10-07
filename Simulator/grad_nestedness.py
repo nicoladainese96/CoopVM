@@ -2,7 +2,7 @@
 """
 Created on Sat Aug 25 12:48:20 2018
 
-@author: Utente
+@author: nicola.dainese96@gmail.com
 """
 
 def swap_matrix_element (A, P):
@@ -50,8 +50,8 @@ def NODF_calc (A):
     
     #print('k_A = ', k_A)
     #print('k_P = ', k_P)
-    sigma_deg_A = stat.stdev(k_A)
-    sigma_deg_P = stat.stdev(k_P)
+    #sigma_deg_A = stat.stdev(k_A)
+    #sigma_deg_P = stat.stdev(k_P)
     
     
     O_A = [ [] for x in range(S1)]

@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 21 08:30:32 2018
 
-@author: Utente
+@author: nicola.dainese96@gmail.com
 """
 
 def print_matrix(A, S1, S2, C, filename, parent_dir):

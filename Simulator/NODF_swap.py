@@ -2,7 +2,7 @@
 """
 Created on Sat Aug 25 13:09:06 2018
 Swap matrix elements and calculate NODF. Code has a lot of problems, it has to be debugged.
-@author: Utente
+@author: nicola.dainese96@gmail.com
 """
 
 def NODF_swap (S1, S2, C, step, P, dir_name):

@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 21 08:53:37 2018
 
-@author: Utente
+@author: nicola.dainese96@gmail.com
 """
 def p_launcher (N, rip, eps, ps, t, work_dir, option):
     import math
@@ -145,12 +145,11 @@ def precision_simul(N, S1, S2, C, eps, rip, t, work_dir):
         one_simulation(A1, N1, N2, S1, S2, eps, C, t, NODF1, dir_name1, rip, re = i)
     O.NODF_print_info_csv(NODF1, eps, C, rip, dir_name1, parent_dir)
     O.info_precision(N, rip, [NODF1], eps, C, t, work_dir, parent_dir)
-    print('Eseguo matrice random.')
     
+    print('Eseguo matrice random.')
     A2 = adjacency_matrix_rnd2(S1, S2, C, dir_name2, 1)
     NODF2 = NODF_calc(A2)
    
-    
     for i in range(rip):
         one_simulation(A2, N1, N2, S1, S2, eps, C, t, NODF2, dir_name2, rip, re = i)
     O.NODF_print_info_csv(NODF2, eps, C, rip, dir_name2, parent_dir)
