@@ -1,0 +1,3 @@
+All the programs in this folder aren't really necessary to run the simulator or the analyser.
+Some of them were developed to personalize certain graphic features, like 'reorder matrix', but mostly are patches used to replot some specific data from older version of the program. 
+Anyway they can be seen as raw material for new branches to be developed and I'll try to describe them in their headings sections or down here.
