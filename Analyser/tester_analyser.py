@@ -6,9 +6,14 @@ Code to test and execute the analyser. There isn't a user interface.
 """
 
 import analyser as an
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #at the moment this directory has to be written manually
-input_path = 'C:/Users/Utente/Anaconda3/Cooperazione'
-x = [0,1,2,3,4,5] #change this list for execute multiple analysis commands
+input_path = 'C:/Users/Utente/Anaconda3/Test'
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+x = [1] #change this list for execute multiple analysis commands
+# i.e. [0,1,2,3,4,5] executes all the statements below
 for i in x:
     if i == 0:
         an.e_analyser(input_path)

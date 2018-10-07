@@ -8,6 +8,8 @@ Used both in the simulation and the analysis part. It should be splitted in two 
 def print_matrix(A, S1, S2, C, filename, parent_dir):
     import matplotlib.pyplot as plt
     from ensure_dir import ensure_dir
+    import os
+    script_dir = os.getcwd()
     
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -26,19 +28,17 @@ def print_matrix(A, S1, S2, C, filename, parent_dir):
     
     path = parent_dir+'/'+filename+'//prova.txt'
     ensure_dir(path)
-    import os
     directory = os.path.dirname(path)
     os.chdir(directory)
     fig.savefig(filename+'_matrix.png')
     plt.close()
-    #this path should be more general!
-    file_path2 = "C:/Users/Utente/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     
 def print_matrix2(A, S1, S2, C, NODF, re, parent_dir):
     import matplotlib.pyplot as plt
     from ensure_dir import ensure_dir
+    import os
+    script_dir = os.getcwd()
     
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -57,15 +57,11 @@ def print_matrix2(A, S1, S2, C, NODF, re, parent_dir):
     
     path = parent_dir+'//prova.txt'
     ensure_dir(path)
-    import os
     directory = os.path.dirname(path)
     os.chdir(directory)
     fig.savefig(repr(C)+'-'+repr(re)+'_matrix.png')
     plt.close()
-    #this path should be more general!
-    file_path2 = "C:/Users/Utente/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     
 def print_list_csv(l, name, dir_name, rnd =2, d = 2):
     from ensure_dir import ensure_dir
@@ -569,7 +565,7 @@ def NODF_print(S1_m, S1_d, S2_m, S2_d, eps, C, NODFs, S1, S2, rip, parent_dir):
 def e_hist(data):
     #import my_output as O
     #import math
-    from analyzer import n_analysis2
+    from analyser import n_analysis2
     eps_len = (len(data) - 5)
     epsilons = []
     
@@ -668,7 +664,7 @@ def e_plot_hist(v_n_rip, eps, p, N, names, dir_name):
 def p_hist(data):
     #import my_output as O
     #import math
-    from analyzer import n_analysis2
+    from analyser import n_analysis2
     ps_len = (len(data) - 5)
     ps = []
     
