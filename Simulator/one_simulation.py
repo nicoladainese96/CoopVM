@@ -65,7 +65,6 @@ def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33,
         A = adjacency_matrix_nested(S1, S2, p , dir_name, re, g, flag)
     else: #balanced nested / second type
         A = adjacency_matrix_nested2(S1, S2, p , dir_name, re, g, flag)
-    #print('A = ', A)
     tau_max1 = int(t/N1)
    
     v1 = [ randint(0, S1-1) for x in range (0,N1)]

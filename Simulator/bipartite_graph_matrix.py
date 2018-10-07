@@ -12,11 +12,11 @@ def adjacency_matrix_rnd(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index =
     from ensure_dir import ensure_dir
     import my_print as my
     import my_output as O
-    #print('dir_name = ', dir_name)
     file_path = dir_name+'/prova.txt'
     ensure_dir(file_path)
-    directory = os.path.dirname(file_path)
-    os.chdir(directory)
+    out_dir = os.path.dirname(file_path)
+    script_dir = os.getcwd()
+    os.chdir(out_dir)
     #connectance IS NOT fixed, but its average <C> is equal to p
     #anyway on 100 realization no significant difference is detected
     G = bipartite.random_graph(S1, S2, p)
@@ -63,9 +63,7 @@ def adjacency_matrix_rnd(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index =
     else:
         O.print_list_csv(deg1, 'deg1_R-'+repr(index), dir_name)
         O.print_list_csv(deg2, 'deg2_R-'+repr(index), dir_name)
-    file_path2 = "C:/Users/Utente/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     return A1
 
 def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
@@ -76,6 +74,7 @@ def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index 
     from ensure_dir import ensure_dir
     import my_print as my
     import my_output as O
+    script_dir = os.getcwd()
     #print('dir_name = ', dir_name)
     #k is the number of non-null elements of the mutualistic matrix
     #in this case p = C in each realization
@@ -164,9 +163,7 @@ def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index 
     #else:
     #    O.print_list_csv(deg1, 'deg1_R-'+repr(index), dir_name)
     #    O.print_list_csv(deg2, 'deg2_R-'+repr(index), dir_name)
-    file_path2 = "C:/Users/Utente/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     return A1
 
 def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
@@ -177,6 +174,7 @@ def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', ind
     from ensure_dir import ensure_dir
     import my_print as my
     import my_output as O
+    script_dir = os.getcwd()
     file_path = dir_name+'/prova.txt'
     ensure_dir(file_path)
     directory = os.path.dirname(file_path)
@@ -265,9 +263,7 @@ def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', ind
         O.print_list_csv(deg1, 'deg1_N-'+repr(index), dir_name)
         O.print_list_csv(deg2, 'deg2_N-'+repr(index), dir_name)
     plt.close()
-    file_path2 = "C:/Users/Utente/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     return A1
 
 def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
@@ -278,6 +274,7 @@ def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', in
     from ensure_dir import ensure_dir
     import my_print as my
     import my_output as O
+    script_dir = os.getcwd()
     file_path = dir_name+'/prova.txt'
     ensure_dir(file_path)
     directory = os.path.dirname(file_path)
@@ -363,9 +360,7 @@ def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', in
         O.print_list_csv(deg1, 'deg1_N-'+repr(index), dir_name)
         O.print_list_csv(deg2, 'deg2_N-'+repr(index), dir_name)
     plt.close()
-    file_path2 = "C:/Users/Utente/Anaconda3/UserScripts/Programmi cooperazione/"
-    directory2 = os.path.dirname(file_path2)
-    os.chdir(directory2)
+    os.chdir(script_dir)
     return A1
 
 def adjust_edges(G, S1, S2, C): #first method of adjusting edges - asymmetric for low Cs
