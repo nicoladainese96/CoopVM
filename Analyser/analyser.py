@@ -7,16 +7,16 @@ p (~ C) -> epsilon constant, C varied, 2 cases: random & nested
 e (epsilon) -> C constant, epsilon varied, 2 cases: random & nested
 @author: nicola.dainese96@gmail.com
 """
-def NODF_analyzer(input_path):
+def NODF_analyser(input_path):
     import my_input as I
     #import my_output as O
     pstrings = I.csv_string_reader ('info_NODF', input_path)
     for i in range(len(pstrings)):
         print('Analisi riga {} NODF - string.'.format(i+1))
-        NODF2_analyzer(pstrings[i])
+        NODF2_analyser(pstrings[i])
         #O.p_hist(pstrings[i])
         
-def NODF2_analyzer(data):
+def NODF2_analyser(data):
     #import my_input as I
     import my_output as O
     import math
@@ -41,16 +41,16 @@ def NODF2_analyzer(data):
     O.NODF_print(S1_m_l, S1_d_l, S2_m_l, S2_d_l, eps, C, NODFs, S1, S2, rip, parent_dir)
     
 
-def p_analyzer(input_path):
+def p_analyser(input_path):
     import my_input as I
     import my_output as O
     pstrings = I.csv_string_reader ('info_p', input_path)
     for i in range(len(pstrings)):
         print('Analisi riga {} pstring.'.format(i+1))
-        p2_analyzer(pstrings[i])
+        p2_analyser(pstrings[i])
         O.p_hist(pstrings[i])
         
-def multiple_p_analyzer(input_path):
+def multiple_p_analyser(input_path):
     import my_input as I
     import my_output as O
     pstrings = I.csv_string_reader ('info_p', input_path)
@@ -62,7 +62,7 @@ def multiple_p_analyzer(input_path):
     sigmas = []  
     for i in range(len(pstrings)):
         print('Analisi riga {} pstring.'.format(i+1))
-        (B_N, sB_N, B_R, sB_R, d, s) = multiple_p2_analyzer(pstrings[i])
+        (B_N, sB_N, B_R, sB_R, d, s) = multiple_p2_analyser(pstrings[i])
         B_Ns.append(B_N)
         sB_Ns.append(sB_N)
         B_Rs.append(B_R)
@@ -72,9 +72,9 @@ def multiple_p_analyzer(input_path):
     print('Eseguo print_C_zoom.')
     O.print_C_zoom(B_Ns, sB_Ns, B_Rs, sB_Rs, deltas, sigmas)   
     
-def multiple_p2_analyzer(data):
+def multiple_p2_analyser(data):
     #import my_input as I
-    import my_output as O
+    #import my_output as O
     import math
     ps_len = (len(data) - 5)
     ps = []
@@ -89,7 +89,7 @@ def multiple_p2_analyzer(data):
         y = float(data[4+j])
         ps.append(y)  
     #tau = data[-1]
-    #attenzione: da cambiare S_analysis, vd e2_analyzer
+    #attenzione: da cambiare S_analysis, vd e2_analyser
     #Prova:
     #ps = ps = [0.0, 0.033, 0.066, 0.1, 0.2, 0.35, 0.5]
     (N_S1_m_l, N_S1_d_l) = p_S_analysis('N_S1_', parent_dir, eps, ps)
@@ -130,7 +130,7 @@ def multiple_p2_analyzer(data):
         s.append(err)
     return (B_N, sB_N, B_R, sB_R, d, s)    
     
-def p2_analyzer(data):
+def p2_analyser(data):
     #import my_input as I
     import my_output as O
     import math
@@ -147,7 +147,7 @@ def p2_analyzer(data):
         y = float(data[4+j])
         ps.append(y)  
     #tau = data[-1]
-    #attenzione: da cambiare S_analysis, vd e2_analyzer
+    #attenzione: da cambiare S_analysis, vd e2_analyser
     #Prova:
     #ps = ps = [0.0, 0.033, 0.066, 0.1, 0.2, 0.35, 0.5]
     (N_S1_m_l, N_S1_d_l) = p_S_analysis('N_S1_', parent_dir, eps, ps)
@@ -163,7 +163,7 @@ def p2_analyzer(data):
 
 
 
-def e_analyzer(input_path):
+def e_analyser(input_path):
     #una riga è sufficiente ad una analisi!!
     import my_input as I
     import my_output as O
@@ -172,11 +172,11 @@ def e_analyzer(input_path):
     print(estrings[0])
     for i in range(len(estrings)):
         print('Analisi riga {} estring.'.format(i+1))
-        e2_analyzer(estrings[i])
+        e2_analyser(estrings[i])
         O.e_hist(estrings[i])
      
 
-def e2_analyzer(data):
+def e2_analyser(data):
     #import my_input as I
     import my_output as O
     import math
@@ -290,7 +290,7 @@ def S_mean_precision( work_dir):
     #per la simulaizone nuova e per quella vecchia
     import my_input as I
     import math
-    import matplotlib.pyplot as plt
+    #import matplotlib.pyplot as plt
     refN_1 = I.csv_string_reader('S1_files', work_dir)[0]
     refV_1 = I.csv_string_reader('S1_files', work_dir)[1] 
     refN_2 = I.csv_string_reader('S2_files', work_dir)[0]
