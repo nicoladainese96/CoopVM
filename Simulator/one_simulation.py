@@ -2,7 +2,9 @@
 """
 @author: nicola.dainese96@gmail.com
 """
+import line_profiler
 
+@profiler
 def R_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, 
                      p = 0.33, t = 1000, dir_name = '50-50', rip = 1, g=1, flag = False, re = 1):
     from one_step_bi import one_step
@@ -53,6 +55,7 @@ def R_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05,
     print("Tempo simulazione: {}".format(simulation_t), 'min. \n')
     print("Di cui nel ciclo for: {} min. \n".format(cicle_t))
 
+@profiler
 def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33, 
                      t = 1000, dir_name = '50-50', rip = 1, g=1, flag = False, re = 1, option = 0):
     from one_step_bi import one_step

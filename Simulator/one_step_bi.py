@@ -10,7 +10,7 @@ def one_step(N1, N2, v1, v2, n1, n2, A, eps, rip = 1, flag = False, dir_name = '
     (v1,n1) = one_step_A(N1, N2, v1, n1, n2, A, eps, rip = rip, flag = flag, dir_name = dir_name)
     (v2,n2) = one_step_B(N1, N2, v2, n1, n2, A, eps, rip = rip, flag = flag, dir_name = dir_name)
     return (v1, v2, n1, n2)
-    
+  
 def one_step_A(N1, N2, v1, n1, n2, A, eps, rip, flag, dir_name):
     """ """
     import numpy as np
@@ -78,8 +78,6 @@ def one_step_B(N1, N2, v2, n1, n2, A, eps, rip, flag, dir_name):
         if n2[i] == 0:
             H_theta[i] = 0
     dT = eps/N1 *  A.dot(n1)  * H_theta   
-    #M1 = np.array(A.T.dot(n1)).ravel() #vectorial notation with elementwise numpy
-    #dT = eps/N1 * H_theta *  M1 #vectorial notation with elementwise numpy
     P = n2/Nr + dT
     Ptot = P.sum()
     #RINORMALIZZARE LE PROBABILITÀ
