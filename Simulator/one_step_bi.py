@@ -13,64 +13,41 @@ def one_step(N1, N2, v1, v2, n1, n2, A, eps, rip = 1, flag = False, dir_name = '
     
 def one_step_A(N1, N2, v1, n1, n2, A, eps, rip, flag, dir_name):
     """ """
-    
+    import numpy as np
     from random import random
-    from random import sample
-    import my_print as my
+    from random import sample #da cambiare
     
     Nr = N1 - 1
     q = sample(range(0,N1),1)[0] #posizione nel vettore
     Si = v1[q] #valore di quell'elemento
     n1[Si] = n1[Si] - 1 #aggiorno il conto individui
-    #creiamo una lista di probabilità
-    P = []
-    Smax2 = len(n1)
-    dT = []
+    Smax2 = len(n1) #perché l'ho chiamato così??
     
-    for i in range(0,Smax2):
-        Ti = 0
-        if n1[i] > 0:
-            for j in range(0, len(n2)):
-                Ti = Ti + eps*A[i][j]*n2[j]/N2
-        else:
-            Ti = 0
-        dT.append(Ti)
+    P = np.zeros(Smax2)
+    dT = np.zeros(Smax2)
+    H_theta = np.ones(Smax2)
     
-    for i in range(0,Smax2): 
-        Pb = n1[i]/Nr + dT[i]  #prob i-esima nascita
-        P.append(Pb)
-    
-    Ptot = 0
-    for i in range(0, len(P)):
-        Ptot = Ptot + P[i]
-    
-    
+    for i in range(Smax2):
+        if n1[i] == 0:
+            H_theta[i] = 0
+      
+    #M = A.dot(n2)
+    dT = eps/N2 *  A.dot(n2)  * H_theta    #vectorial notation with elementwise numpy
+
+    P = n1/Nr + dT
+    Ptot = P.sum()
     #RINORMALIZZARE LE PROBABILITÀ
-    for i in range(0, len(P)):
-        P[i] = P[i]/Ptot
-     
+    P = P/Ptot
+    if round(P.sum(),2) != 1.0:
+        print('Problema Ptot = {} \n'.format(round(P.sum(),2)))
     Ptot_n = 0
-    Pc = [] #prob cumulata
+    Pc = np.zeros(Smax2) #prob cumulata
+   
     for i in range(0, len(P)):
         Ptot_n = Ptot_n + P[i]
-        Pc.append(Ptot_n)
-    if round(Ptot_n,4) != 1:
+        Pc[i] = Ptot_n
+    if round(Ptot_n,4) != 1.0:
         print('Ptot norm = ', round(Ptot_n,4))    
-    
-    #fare la stessa cosa anche per one_step_B!!
-    if flag == True:
-        data = [round(Ptot,2)]
-        T_tot = 0
-        for i in range(len(dT)):
-            T_tot = T_tot + dT[i]
-        TsuP = round(T_tot/Ptot,2)
-        data.append(TsuP)
-        V1 = round(P[0] - P[-1],4)
-        data.append(V1)
-        V2 = round((dT[0] - dT[-1])/Ptot , 4)    
-        data.append(V2)
-        my.print_tuple(data, 'A-'+repr(rip), dir_name, d= 4)
-        #my.print_tuple(dT, 'dT_A'+repr(rip), dir_name, d= len(dT))
         
     C = random()
     for i in range(0, len(P)):
@@ -88,62 +65,35 @@ def one_step_B(N1, N2, v2, n1, n2, A, eps, rip, flag, dir_name):
     
     from random import random
     from random import sample
-    import my_print as my
-    
+    import numpy as np
     Nr = N2 - 1
     q = sample(range(0,N2),1)[0] #posizione nel vettore
     Si = v2[q] #valore di quell'elemento
     n2[Si] = n2[Si] - 1 #aggiorno il conto individui
-    #creiamo una lista di probabilità
-    P = []
-    dT = []
-    
-    for i in range(0,len(n2)):
-        Ti = 0
-        if n2[i] > 0:
-            for j in range(0, len(n1)):
-                Ti = Ti + eps*A[j][i]*n1[j]/N1
-        else:
-            Ti = 0
-        dT.append(Ti)
-    
-    for i in range(0,len(n2)): 
-        Pb = n2[i]/Nr + dT[i]  #prob i-esima nascita
-        P.append(Pb)
-    
-    Ptot = 0
-    for i in range(0, len(P)):
-        Ptot = Ptot + P[i]
-    #print('Ptot non norm = {}'.format(Ptot))
-    
-        
+    Smax2 = len(n1) #perché l'ho chiamato così??
+    P = np.zeros(Smax2)
+    dT = np.zeros(Smax2)
+    H_theta = np.ones(Smax2)
+    for i in range(Smax2):
+        if n2[i] == 0:
+            H_theta[i] = 0
+    dT = eps/N1 *  A.dot(n1)  * H_theta   
+    #M1 = np.array(A.T.dot(n1)).ravel() #vectorial notation with elementwise numpy
+    #dT = eps/N1 * H_theta *  M1 #vectorial notation with elementwise numpy
+    P = n2/Nr + dT
+    Ptot = P.sum()
     #RINORMALIZZARE LE PROBABILITÀ
-    for i in range(0, len(P)):
-        P[i] = P[i]/Ptot
-     
+    P = P/Ptot
+    if round(P.sum(),2) != 1.0:
+        print('Problema Ptot = {} \n'.format(round(P.sum(),2)))
     Ptot_n = 0
-    Pc = [] #prob cumulata
+    Pc = np.zeros(Smax2) #prob cumulata
+    #rivedere se i cicli range possono essere scritti meglio!!
     for i in range(0, len(P)):
         Ptot_n = Ptot_n + P[i]
-        Pc.append(Ptot_n)
-    #print('Ptot norm = {}'.format(Ptot_n))    
-    if round(Ptot_n,4) != 1:
-        print('Ptot norm = ', round(Ptot_n,4))
-        
-    #fare la stessa cosa anche per one_step_B!!
-    if flag == True:
-        data = [round(Ptot,2)]
-        T_tot = 0
-        for i in range(len(dT)):
-            T_tot = T_tot + dT[i]
-        TsuP = round(T_tot/Ptot,2)
-        data.append(TsuP)
-        V1 = round(P[0] - P[-1],4)
-        data.append(V1)
-        V2 = round((dT[0] - dT[-1])/Ptot , 4)    
-        data.append(V2)
-        my.print_tuple(data, 'B-'+repr(rip), dir_name, d=4)
-        #my.print_tuple(dT, 'dT_B'+repr(rip), dir_name, d= len(dT))
+        Pc[i] = Ptot_n
+    if round(Ptot_n,4) != 1.0:
+        print('Ptot norm = ', round(Ptot_n,4))    
         
     C = random()
     for i in range(0, len(P)):
@@ -158,7 +108,9 @@ def one_step_B(N1, N2, v2, n1, n2, A, eps, rip, flag, dir_name):
 
 def one_step_mono(N, nu, v, n, c_s):
     """ """
-    
+    #@@@@@@@@@@@@@@@@@@@@@@@
+    #qui ho lasciato il codice di purePython al momento!!
+    #@@@@@@@@@@@@@@@@@@@@@@@
     from random import random
     from random import sample
     Nr = N - 1

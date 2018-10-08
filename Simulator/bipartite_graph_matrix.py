@@ -12,6 +12,7 @@ def adjacency_matrix_rnd(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index =
     from ensure_dir import ensure_dir
     import my_print as my
     import my_output as O
+    import numpy as np
     file_path = dir_name+'/prova.txt'
     ensure_dir(file_path)
     out_dir = os.path.dirname(file_path)
@@ -64,7 +65,7 @@ def adjacency_matrix_rnd(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index =
         O.print_list_csv(deg1, 'deg1_R-'+repr(index), dir_name)
         O.print_list_csv(deg2, 'deg2_R-'+repr(index), dir_name)
     os.chdir(script_dir)
-    return A1
+    return np.array(A1)
 
 def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
     import networkx as nx
@@ -74,6 +75,7 @@ def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index 
     from ensure_dir import ensure_dir
     import my_print as my
     import my_output as O
+    import numpy as np
     script_dir = os.getcwd()
     #print('dir_name = ', dir_name)
     #k is the number of non-null elements of the mutualistic matrix
@@ -164,10 +166,11 @@ def adjacency_matrix_rnd2(S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index 
     #    O.print_list_csv(deg1, 'deg1_R-'+repr(index), dir_name)
     #    O.print_list_csv(deg2, 'deg2_R-'+repr(index), dir_name)
     os.chdir(script_dir)
-    return A1
+    return np.array(A1)
 
 def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
     #asymmetric nested (for low values of connectances)
+    import numpy as np
     import networkx as nx
     import matplotlib.pyplot as plt
     import os
@@ -264,10 +267,11 @@ def adjacency_matrix_nested (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', ind
         O.print_list_csv(deg2, 'deg2_N-'+repr(index), dir_name)
     plt.close()
     os.chdir(script_dir)
-    return A1
+    return np.array(A1)
 
 def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', index = 1, index2 = 1, flag = False):
     #balanced nested
+    import numpy as np
     import networkx as nx
     import matplotlib.pyplot as plt
     import os
@@ -361,7 +365,7 @@ def adjacency_matrix_nested2 (S1 = 10, S2 = 10, p = 0.33, dir_name = 'graph', in
         O.print_list_csv(deg2, 'deg2_N-'+repr(index), dir_name)
     plt.close()
     os.chdir(script_dir)
-    return A1
+    return np.array(A1)
 
 def adjust_edges(G, S1, S2, C): #first method of adjusting edges - asymmetric for low Cs
     import networkx as nx

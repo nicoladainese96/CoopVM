@@ -11,7 +11,7 @@ from main import tau_conv #this part can be improved - not all main.py file is r
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #This directory at the moment has to be written by the user. 
-work_dir = 'C:/Users/Utente/Anaconda3/Cooperazione'
+work_dir = 'C:/Users/Utente/Anaconda3/Test_numpy'
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #Actually more than a working directory it's the folder in which all the data 
