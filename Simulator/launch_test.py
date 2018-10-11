@@ -25,7 +25,7 @@ p = 0.35 #probability of an element matrix Mij to be 1 - on average is equal to 
 epsilons = [0.0, 0.033, 0.066, 0.1, 0.2, 0.35, 0.5, 0.65, 0.8, 1.0] #set of values for epsilon
 ps = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55] #set of values for p (~C)
 t = tau_conv(N) #it's measured in steps -> change the name of 'tau_conv' function!!
-#t = 150001 (time can be specified also manually)
+#t = 100000 #(time can be specified also manually)
 #Note that the result form tau_conv(N) can vary for the very same N 
 #(because basically it depends on absorption time of a single Voter Model 
 #without speciation and cooperation)

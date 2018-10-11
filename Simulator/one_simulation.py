@@ -48,7 +48,7 @@ def R_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05,
         O.print_list_csv(n_2, 'R_n2_'+name, dir_name, d = len(n_2))
         
       
-    simulation_t = round((time.time() - start_time)/60,2)
+    simulation_t = round((time.time() - start_time)/60,4)
     print("Tempo simulazione: {}".format(simulation_t), 'min. \n')
 
 def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33, 
@@ -101,7 +101,7 @@ def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33,
 
         
          
-    simulation_t = round((time.time() - start_time)/60,2)
+    simulation_t = round((time.time() - start_time)/60,4)
     print("Tempo simulazione: {}".format(simulation_t), 'min. \n')
 
 def one_simulation(A, N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33, 
