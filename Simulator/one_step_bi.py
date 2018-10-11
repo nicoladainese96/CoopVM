@@ -4,6 +4,9 @@ Created on Thu Aug  9 09:49:02 2018
 
 @author: nicola.dainese96@gmail.com
 """
+from random import random
+from random import sample
+import numpy as np
 
 def one_step(N1, N2, v1, v2, n1, n2, A, eps, rip = 1, flag = False, dir_name = ''):
     
@@ -13,9 +16,6 @@ def one_step(N1, N2, v1, v2, n1, n2, A, eps, rip = 1, flag = False, dir_name = '
   
 def one_step_A(N1, N2, v1, n1, n2, A, eps, rip, flag, dir_name):
     """ """
-    import numpy as np
-    from random import random
-    from random import sample #da cambiare
     
     Nr = N1 - 1
     q = sample(range(0,N1),1)[0] #posizione nel vettore
@@ -63,9 +63,7 @@ def one_step_A(N1, N2, v1, n1, n2, A, eps, rip, flag, dir_name):
 def one_step_B(N1, N2, v2, n1, n2, A, eps, rip, flag, dir_name):
     """ """
     
-    from random import random
-    from random import sample
-    import numpy as np
+    
     Nr = N2 - 1
     q = sample(range(0,N2),1)[0] #posizione nel vettore
     Si = v2[q] #valore di quell'elemento

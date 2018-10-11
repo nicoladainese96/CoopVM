@@ -2,9 +2,9 @@
 """
 @author: nicola.dainese96@gmail.com
 """
-import line_profiler
+#import line_profiler
 
-@profiler
+#@profiler
 def R_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, 
                      p = 0.33, t = 1000, dir_name = '50-50', rip = 1, g=1, flag = False, re = 1):
     from one_step_bi import one_step
@@ -31,7 +31,6 @@ def R_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05,
         n2[index2[i]] = counts2[i]
     import my_output as O
     
-    checkpoint = time.time()
     for i in range (1,tau_max1):
         #qui il programma è un po' imparziale, perchè tratta la specie 1 come standard
         for k in range(0,N1):
@@ -50,12 +49,11 @@ def R_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05,
         O.print_list_csv(n_2, 'R_n2_'+name, dir_name, d = len(n_2))
         
       
-    simulation_t = round((time.time() - start_time)/60,2)
-    cicle_t = round((time.time() - checkpoint)/60,2)
+    simulation_t = round((time.time() - start_time)/60,4)
     print("Tempo simulazione: {}".format(simulation_t), 'min. \n')
-    print("Di cui nel ciclo for: {} min. \n".format(cicle_t))
+    
 
-@profiler
+#@profiler
 def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33, 
                      t = 1000, dir_name = '50-50', rip = 1, g=1, flag = False, re = 1, option = 0):
     from one_step_bi import one_step
@@ -86,7 +84,6 @@ def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33,
         n2[index2[i]] = counts2[i]
         
     import my_output as O
-    checkpoint = time.time()
     for i in range (1,tau_max1):
         #i_start = time.time()
         #qui il programma è un po' imparziale, perchè tratta la specie 1 come standard
@@ -111,10 +108,9 @@ def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33,
         #it2 = round(finish - p_start,5)
         #print('Ciclo interno {} ha impiegato {}s per simulare e {}s per stampare.'.format(i,it1,it2))
         
-    simulation_t = round((time.time() - start_time)/60,2)
-    cicle_t = round((time.time() - checkpoint)/60,2)
-    print("Tempo simulazione: {}".format(simulation_t), 'min.')
-    print("Di cui nel ciclo for: {} min. \n".format(cicle_t))
+    simulation_t = round((time.time() - start_time)/60,4)
+    print("Tempo simulazione: {}".format(simulation_t), 'min. \n')
+
     
 def one_simulation(A, N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33, 
                      t = 1000, NODF = 1, dir_name = '50-50', rip = 1, g=1, flag = False, re = 1):

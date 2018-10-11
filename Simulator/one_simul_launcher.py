@@ -27,7 +27,7 @@ def p_launcher (N, rip, eps, ps, t, work_dir, option):
         O.N_print_info_csv(eps, p, rip, dir_name, parent_dir)
     O.info_p(N, rip, eps, ps, t, work_dir, parent_dir)
     end = time.time()
-    elapsed = round((end-start)/60,2)
+    elapsed = round((end-start)/60,4)
     print('p_launcher eseguito in {} min \n'.format(elapsed))
     
 def e_launcher (N, rip, epsilons, p, t, work_dir):
