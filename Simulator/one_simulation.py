@@ -93,13 +93,11 @@ def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33,
             
         #p_start = time.time()
         n_1 = deepcopy(n1)
-        #problema con count
         S1 = np.count_nonzero(n_1)
         #funziona allo stesso modo con i numpy array?
         O.print_list_csv(S1, 'N_S1_'+name, dir_name, d=1)
         O.print_list_csv(n_1, 'N_n1_'+name, dir_name, d = len(n_1))
         n_2 = deepcopy(n2)
-        #problema con count
         S2 = np.count_nonzero(n_2)
         O.print_list_csv(S2, 'N_S2_'+name, dir_name, d=1)
         O.print_list_csv(n_2, 'N_n2_'+name, dir_name, d = len(n_2))
@@ -114,6 +112,7 @@ def N_one_simulation(N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33,
     
 def one_simulation(A, N1 = 50, N2 = 50, S1 = 10, S2 = 10, eps = 0.05, p = 0.33, 
                      t = 1000, NODF = 1, dir_name = '50-50', rip = 1, g=1, flag = False, re = 1):
+    #this function has to be updated!
     from one_step_bi import one_step
     from random import randint
     from copy import deepcopy

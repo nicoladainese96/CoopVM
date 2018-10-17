@@ -8,7 +8,7 @@ Directly executable from Python console.
 from NODF_swap import NODF_swap #this code is full of trubles - not used in the thesis' version
 import one_simul_launcher as launch
 from main import tau_conv #this part can be improved - not all main.py file is required
-
+from t_conv import t_conv
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #This directory at the moment has to be written by the user. 
 work_dir = 'C:/Users/Utente/Anaconda3/SpeedTest'
@@ -19,14 +19,15 @@ work_dir = 'C:/Users/Utente/Anaconda3/SpeedTest'
 N = 1000 #number of individuals of each VM
 S1 = 34 #number of species of the first group - usually I set S = sqrt(N)
 S2 = 34  #number of species of the first group
-rip = 2 #number of realization for each value of the parameters - 100 suggested for statistic significance
+rip = 10 #number of realization for each value of the parameters - 100 suggested for statistic significance
 eps = 0.1 #epsilon - intensity of mutualism
 p = 0.35 #probability of an element matrix Mij to be 1 - on average is equal to the connectance C
 epsilons = [0.0, 0.033, 0.066, 0.1, 0.2, 0.35, 0.5, 0.65, 0.8, 1.0] #set of values for epsilon
-#ps = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55] #set of values for p (~C)
-ps = [0.35, 0.4]
+ps = [0.0, 0.033, 0.066, 0.1, 0.2, 0.35, 0.5, 0.65, 0.8, 1.0] #set of values for p (~C)
+#ps = [0.35, 0.4]
 #t = tau_conv(N) #it's measured in steps -> change the name of 'tau_conv' function!!
-t = 100000 #(time can be specified also manually)
+t = t_conv(N)
+#t = 100000 #(time can be specified also manually)
 #Note that the result form tau_conv(N) can vary for the very same N 
 #(because basically it depends on absorption time of a single Voter Model 
 #without speciation and cooperation)
