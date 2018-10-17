@@ -15,6 +15,7 @@ def t_conv(N, m = 1, s = 5):
     import statistics as stat
     t = []
     for i in range(5):
+        #this init_simulation has to be changed to the one below
         t_i = init_simulation(N)
         t.append(t_i)
     t_mean = stat.mean(t)

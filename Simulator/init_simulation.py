@@ -28,6 +28,7 @@ def init_simulation(N):
 
 def init_simulation2(N, S, dir_name, name):
     #import math
+    import numpy as np
     from random import randint
     from copy import deepcopy
     import my_print as my
@@ -40,7 +41,13 @@ def init_simulation2(N, S, dir_name, name):
     for i in range (0,Smax+1):
         c = v.count(i)
         n.append(c)
-
+    #@@@@@@@@@@@
+    v = np.random.randint(0,S,N)
+    n = np.zeros(S,dtype=int)
+    index, counts = np.unique(v, return_counts=True)
+    for i in range(len(index)):
+        n[index[i]] = counts[i]
+    #@@@@@@@@@@@
     from one_step_bi import one_step_mono
     t_conv = 0
     i = 0

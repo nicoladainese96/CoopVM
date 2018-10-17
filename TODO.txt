@@ -1,0 +1,4 @@
+1) Update bipartite_graph_matrix.py so that the module my_print isn't imported anymore
+2) Try to implement numpy also on init_simulation, in order to decrease the time to compute t_conv (~3.8 min for 5 test simulations -> 2 min?) 
+3) Try to time each line of one_step and find out where most of the time is spent by the program.
+4) Try to speed up the main simualtions with numpy
