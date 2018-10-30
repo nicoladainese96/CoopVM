@@ -14,7 +14,8 @@ def p_launcher (N, rip, eps, ps, t, work_dir, option):
     N2 = N
     S1 = int(math.sqrt(N1))
     S2 = int(math.sqrt(N2))
-    parent_dir = work_dir+'/'+repr(N)+'-'+repr(rip)+'/p'
+    tau_max1 = int(t/N1)
+    parent_dir = work_dir+'/'+repr(N)+'-'+repr(rip)+'-'+repr(tau_max1)+'/p'
     for p in ps:
         dir_name = parent_dir+'/'+repr(eps)+'-'+repr(p)
         for i in range(rip):
@@ -40,7 +41,8 @@ def e_launcher (N, rip, epsilons, p, t, work_dir):
     N2 = N
     S1 = int(math.sqrt(N1))
     S2 = int(math.sqrt(N2))
-    parent_dir = work_dir+'/'+repr(N)+'-'+repr(rip)+'/e'
+    tau_max1 = int(t/N1)
+    parent_dir = work_dir+'/'+repr(N)+'-'+repr(rip)+'-'+repr(tau_max1)+'/e'
     for eps in epsilons:
         dir_name = parent_dir+'/'+repr(eps)+'-'+repr(p)
         for i in range(rip):

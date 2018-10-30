@@ -28,7 +28,7 @@ ps = [0.0, 0.033, 0.066, 0.1, 0.2, 0.35, 0.5, 0.65, 0.8, 1.0] #set of values for
 #ps = [0.35, 0.4]
 start = time.time()
 #t = tau_conv(N) #it's measured in steps -> change the name of 'tau_conv' function!!
-t = t_conv(N)
+t = t_conv(N, s=3)
 end = time.time()
 diff = round((end-start)/60,4)
 print('Time employed to compute t_conv: {} min \n'.format(diff))
@@ -49,7 +49,7 @@ eps2 = 0.1 #epsilon - intensity of mutualism
 #at this dir_name could be added the time of the simulation, resulting from tau_conv call
 dir_name = work_dir+'/NODF/'+repr(C)+'-'+repr(step)+'-'+repr(P)+'-'+repr(rip2)
 
-commands = [0] #select [0,1,2,3,4] to execute all statements
+commands = [1] #select [0,1,2,3,4] to execute all statements
 for x in commands:
     if x == 0:
         #vary the connectance with fixed epsilon
